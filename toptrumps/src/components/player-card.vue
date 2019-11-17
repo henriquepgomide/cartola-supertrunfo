@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div class="player-card">
+
       <div class="card">
         <div class="card-image">
           <figure class="image is-4by4">
@@ -16,7 +17,7 @@
             </div>
             <div class="media-content">
               <p class="title is-4">{{ playerName }}</p>
-                <p class="subtitle is-7">{{ upperCase(fixPositionName(playerPosition)) }}</p>
+              <p class="subtitle is-7">{{ upperCase(fixPositionName(playerPosition)) }}</p>
             </div>
           </div>
           <div class="content">
@@ -84,8 +85,6 @@ export default {
   },
   data () {
     return {
-      statToCompare: null,
-      valueToCompare: null
     }
   },
   methods: {
@@ -99,8 +98,8 @@ export default {
         }
       }
       const stat = document.getElementById(id).childNodes
-      this.statToCompare = stat[0].innerText
-      this.valueToCompare = stat[1].innerText
+      const statToCompare = [stat[0].innerText, stat[1].innerText]
+      this.$emit('selectRow', statToCompare)
     },
     upperCase (text) {
       return text.toUpperCase()
@@ -144,7 +143,4 @@ export default {
   box-shadow: 6px 7px 0px -1px rgba(31,31,31,0.18);
 }
 
-.card-content {
-  background-color: #eaeaea;
-}
 </style>
