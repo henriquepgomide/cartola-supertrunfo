@@ -1,61 +1,68 @@
 <template>
   <div class="container">
     <div class="player-card">
-
-      <div class="card">
-        <div class="card-image">
-          <figure class="image is-4by4">
-            <img :src="urlImagePath(playerPicture)" alt="Placeholder image">
-          </figure>
-        </div>
-        <div class="card-content">
-          <div class="media">
-            <div class="media-left">
-              <figure class="image is-48x48">
-                <img :src="addTeamLogo(teamBadge)">
-              </figure>
-            </div>
-            <div class="media-content">
-              <p class="title is-4">{{ playerName }}</p>
-              <p class="subtitle is-7">{{ upperCase(fixPositionName(playerPosition)) }}</p>
+      <div class="flip-box">
+        <div :class="{'flip-box-inner': isFlipped}">
+          <div class="flip-box-front">
+            <div class="card">
+              <div class="card-image">
+                <figure class="image is-4by4">
+                  <img :src="urlImagePath(playerPicture)" alt="Placeholder image">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-left">
+                    <figure class="image is-48x48">
+                      <img :src="addTeamLogo(teamBadge)">
+                    </figure>
+                  </div>
+                  <div class="media-content">
+                    <p class="title is-7">{{ playerName }}</p>
+                    <p class="subtitle is-7">{{ upperCase(fixPositionName(playerPosition)) }}</p>
+                  </div>
+                </div>
+                <div class="content">
+                  <table class="table is-fullwidth is-striped">
+                    <tr id="price" class="stats" @click="selectRow('stats', 'price')">
+                      <td>PREÇO:</td>
+                      <td>{{ roundNumber(price)}}</td>
+                    </tr>
+                    <tr id="avg" class="stats" @click="selectRow('stats', 'avg')">
+                      <td>MÉDIA:</td>
+                      <td>{{ roundNumber(aggAvg)}}</td>
+                    </tr>
+                    <tr id="avgHome" class="stats" @click="selectRow('stats', 'avgHome')">
+                      <td>MÉDIA CASA:</td>
+                      <td>{{ roundNumber(homeAvg)}}</td>
+                    </tr>
+                    <tr id="avgAway" class="stats" @click="selectRow('stats', 'avgAway')">
+                      <td>MÉDIA FORA:</td>
+                      <td>{{ roundNumber(awayAvg)}}</td>
+                    </tr>
+                    <tr id="goals" class="stats" @click="selectRow('stats', 'goals')">
+                      <td>GOLS:</td>
+                      <td>{{ roundNumber(goals) }}</td>
+                    </tr>
+                    <tr id="assists" class="stats" @click="selectRow('stats', 'assists')">
+                      <td>ASSISTÊNCIAS:</td>
+                      <td>{{ roundNumber(assists) }}</td>
+                    </tr>
+                    <tr id="shots" class="stats" @click="selectRow('stats', 'shots')">
+                      <td>CHUTES:</td>
+                      <td>{{ roundNumber(shots) }}</td>
+                    </tr>
+                    <tr id="steals" class="stats" @click="selectRow('stats', 'steals')">
+                      <td>ROUBADAS:</td>
+                      <td>{{ roundNumber(steals) }}</td>
+                    </tr>
+                  </table>
+                  <br>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="content">
-            <table class="table is-fullwidth is-striped">
-              <tr id="price" class="stats" @click="selectRow('stats', 'price')">
-                <td>PREÇO:</td>
-                <td>{{ roundNumber(price)}}</td>
-              </tr>
-              <tr id="avg" class="stats" @click="selectRow('stats', 'avg')">
-                <td>MÉDIA:</td>
-                <td>{{ roundNumber(aggAvg)}}</td>
-              </tr>
-              <tr id="avgHome" class="stats" @click="selectRow('stats', 'avgHome')">
-                <td>MÉDIA CASA:</td>
-                <td>{{ roundNumber(homeAvg)}}</td>
-              </tr>
-              <tr id="avgAway" class="stats" @click="selectRow('stats', 'avgAway')">
-                <td>MÉDIA FORA:</td>
-                <td>{{ roundNumber(awayAvg)}}</td>
-              </tr>
-              <tr id="goals" class="stats" @click="selectRow('stats', 'goals')">
-                <td>GOLS:</td>
-                <td>{{ roundNumber(goals) }}</td>
-              </tr>
-              <tr id="assists" class="stats" @click="selectRow('stats', 'assists')">
-                <td>ASSISTÊNCIAS:</td>
-                <td>{{ roundNumber(assists) }}</td>
-              </tr>
-              <tr id="shots" class="stats" @click="selectRow('stats', 'shots')">
-                <td>CHUTES:</td>
-                <td>{{ roundNumber(shots) }}</td>
-              </tr>
-              <tr id="steals" class="stats" @click="selectRow('stats', 'steals')">
-                <td>ROUBADAS:</td>
-                <td>{{ roundNumber(steals) }}</td>
-              </tr>
-            </table>
-            <br>
+          <div class="flip-box-back">
           </div>
         </div>
       </div>
@@ -81,13 +88,17 @@ export default {
     shots: Number,
     steals: Number,
     roundNumber: Function,
-    fixPositionName: Function
+    fixPositionName: Function,
+    isFlipped: Boolean
   },
   data () {
     return {
     }
   },
   methods: {
+    flipCard () {
+      this.isFlipped = !this.isFlipped
+    },
     selectRow (className, id) {
       const items = document.getElementsByClassName(className)
       for (const item of items) {
@@ -135,12 +146,65 @@ export default {
   }
 }
 </script>
-
 <style scoped>
-.player-card {
+/* entire container, keeps perspective */
+.flip-container {
   -webkit-box-shadow: 6px 7px 0px -1px rgba(31,31,31,0.18);
   -moz-box-shadow: 6px 7px 0px -1px rgba(31,31,31,0.18);
   box-shadow: 6px 7px 0px -1px rgba(31,31,31,0.18);
 }
 
+tr {
+  font-size: 0.9vw;
+}
+
+/* The flip box container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-box {
+  background-color: transparent;
+
+  width: 100%;
+  height: 1200px;
+  border: 1px solid #f1f1f1;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-box-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-box-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-box-front, .flip-box-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+/* Style the front side */
+.flip-box-front {
+  background-color: #bbb;
+  color: black;
+}
+
+/* Style the back side */
+.flip-box-back {
+  /* background-image: url("../../public/img/back_card.jpeg"); */
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #464646;
+  transform: rotateY(180deg);
+}
 </style>

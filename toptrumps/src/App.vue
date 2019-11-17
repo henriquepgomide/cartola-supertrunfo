@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/game">Jogar</router-link> |
-      <router-link to="/about">About</router-link>
+      <span class="font-link"><router-link to="/">Home</router-link> | </span>
+      <span class="font-link"><router-link to="/game">Jogar</router-link> |</span>
+      <span class="font-link"><router-link to="/about"> About</router-link></span>
     </div>
     <router-view/>
   </div>
@@ -12,11 +12,19 @@
 <style>
 @import url('https://fonts.googleapis.com/css?family=Bangers|Press+Start+2P&display=swap');
 
+body {
+  background-color: white;
+}
+
 h1 {
   font-family: 'Bangers', cursive;
 }
 
-h2 {
+#nav .font-link {
+  font-family: 'Press Start 2P', cursive;
+}
+
+h1, h2 {
   font-family: 'Press Start 2P', cursive;
 }
 
@@ -26,7 +34,7 @@ h2 {
 */
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Press Start 2P', cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

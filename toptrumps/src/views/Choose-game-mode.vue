@@ -4,7 +4,8 @@
       <div class="column"></div>
       <div class="column">
         <div class="notification">
-          <h1 class="is-size-2">Antes de começar...</h1>
+          <h1 class="is-size-3">Registro</h1>
+          <br>
           <p>Registre seus dados para o painel dos campeões!</p>
           <br>
           <section>
@@ -27,17 +28,11 @@
             <br>
             <b-button @click="goToGame" type="is-primary">Entrar</b-button>
           </section>
-
           <br>
         </div>
       </div>
       <div class="column"></div>
     </div>
-
-    {{ gameMode }}
-    {{ playerName }}
-    {{ playerEmail }}
-
   </div>
 </template>
 
@@ -46,7 +41,7 @@ export default {
   name: 'choose-game-mode',
   data () {
     return {
-      gameMode: null,
+      gameMode: 1,
       playerName: null,
       playerEmail: null
     }
@@ -66,15 +61,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-@import url('https://fonts.googleapis.com/css?family=Bangers|Press+Start+2P&display=swap');
-
-h1 {
-  font-family: 'Bangers', cursive;
-}
-
-/* p {
-  font-family: 'Press Start 2P', cursive;
-}
-*/
-</style>

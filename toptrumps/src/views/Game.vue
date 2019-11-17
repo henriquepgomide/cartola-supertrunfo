@@ -1,78 +1,71 @@
+// TODO: Provide a flip function to players see which card they've won
+//     : Use WarpGAN to create cartoons based on players
+//     : Use pixelate to pixelate player pictures
+//     : Save player score to Firebase and then update scoreboard view
+//     : Add button to restart match
 <template>
   <div class="game">
-
-    {{ playerCards.length }}
-    {{ opponentCards.length }}
     <br>
-    N=Order{{ i }}
-    <button @click="increment">+</button>
-    <button @click="removeI">-</button>
 
     <div class="columns">
-      <div class="column">
-        Jogador: {{ playerData }}
-      </div>
-      <div class="column">
-          IA: {{ opponentData }}
-      </div>
-    </div>
-
-    <div class="columns">
-      <div class="column">
-        <div class="notification is-primary">
-          <h1 class="is-size-2">{{ playerName }}</h1>
-          <h2>Pontos: {{ playerScore }}</h2>
-        </div>
-      </div>
-      <div class="column">
+      <div class="column is-2"></div>
+      <div class="column is-4">
         <div class="notification is-warning">
-          <h1 class="is-size-2">Inteligência Artificial</h1>
-          <h2>Pontos: {{ opponentScore }}</h2>
+          <h2 class="is-size-4">{{ playerName }}</h2>
+          <h2>Pontos: {{ playerScore }}</h2>
+          <h2>Cartas Restantes: {{ playerCards.length }}</h2>
+        </div>
+        <div v-if="playerCards.length > 0">
+          <PlayerCard
+            :playerName="playerCards[player_i].player_nickname"
+            :playerPosition="playerCards[player_i].player_position"
+            :teamName="playerCards[player_i].team_name"
+            :teamBadge="playerCards[player_i].team_name"
+            :playerPicture="playerCards[player_i].player_id"
+            :price="playerCards[player_i].price"
+            :aggAvg="playerCards[player_i].score_mean"
+            :homeAvg="playerCards[player_i].score_mean_home"
+            :awayAvg="playerCards[player_i].score_mean_away"
+            :goals="playerCards[player_i].goals"
+            :assists="playerCards[player_i].assists"
+            :shots="playerCards[player_i].shotsx"
+            :steals="playerCards[player_i].steals"
+            :roundNumber="roundNumber"
+            :fixPositionName="fixPositionName"
+            :isFlipped="false"
+            @selectRow="updateComparison"
+            />
         </div>
       </div>
-    </div>
 
-    <div class="columns">
-      <div class="column">
-        <PlayerCard
-          :playerName="playerCards[i].player_nickname"
-          :playerPosition="playerCards[i].player_position"
-          :teamName="playerCards[i].team_name"
-          :teamBadge="playerCards[i].team_name"
-          :playerPicture="playerCards[i].player_id"
-          :price="playerCards[i].price"
-          :aggAvg="playerCards[i].score_mean"
-          :homeAvg="playerCards[i].score_mean_home"
-          :awayAvg="playerCards[i].score_mean_away"
-          :goals="playerCards[i].goals"
-          :assists="playerCards[i].assists"
-          :shots="playerCards[i].shotsx"
-          :steals="playerCards[i].steals"
-          :roundNumber="roundNumber"
-          :fixPositionName="fixPositionName"
-          @selectRow="updateComparison"
-          />
+      <div class="column is-4">
+        <div class="notification is-warning">
+          <h2 class="is-size-4">PC</h2>
+          <h2>Pontos: {{ opponentScore }}</h2>
+          <h2>Cartas Restantes: {{ opponentCards.length }}</h2>
+        </div>
+        <div v-if="opponentCards.length > 0 && !opponentFlip">
+          <PlayerCard
+            :playerName="opponentCards[opponent_i].player_nickname"
+            :playerPosition="opponentCards[opponent_i].player_position"
+            :teamName="opponentCards[opponent_i].team_name"
+            :teamBadge="opponentCards[opponent_i].team_name"
+            :playerPicture="opponentCards[opponent_i].player_id"
+            :price="opponentCards[opponent_i].price"
+            :aggAvg="opponentCards[opponent_i].score_mean"
+            :homeAvg="opponentCards[opponent_i].score_mean_home"
+            :awayAvg="opponentCards[opponent_i].score_mean_away"
+            :goals="opponentCards[opponent_i].goals"
+            :assists="opponentCards[opponent_i].assists"
+            :shots="opponentCards[opponent_i].shotsx"
+            :steals="opponentCards[opponent_i].steals"
+            :roundNumber="roundNumber"
+            :fixPositionName="fixPositionName"
+            :isFlipped="opponentFlip"
+            />
+        </div>
       </div>
-
-      <div class="column">
-        <PlayerCard
-          :playerName="opponentCards[i].player_nickname"
-          :playerPosition="opponentCards[i].player_position"
-          :teamName="opponentCards[i].team_name"
-          :teamBadge="opponentCards[i].team_name"
-          :playerPicture="opponentCards[i].player_id"
-          :price="opponentCards[i].price"
-          :aggAvg="opponentCards[i].score_mean"
-          :homeAvg="opponentCards[i].score_mean_home"
-          :awayAvg="opponentCards[i].score_mean_away"
-          :goals="opponentCards[i].goals"
-          :assists="opponentCards[i].assists"
-          :shots="opponentCards[i].shotsx"
-          :steals="opponentCards[i].steals"
-          :roundNumber="roundNumber"
-          :fixPositionName="fixPositionName"
-          />
-      </div>
+      <div class="column is-2"></div>
     </div>
 
   </div>
@@ -97,55 +90,113 @@ export default {
       playerName: null,
       playerEmail: null,
       round: 0,
-      i: 0,
+      player_i: 0,
+      opponent_i: 0,
       playerCards: [],
-      opponentCards: []
+      opponentCards: [],
+      opponentFlip: true
     }
   },
   methods: {
-    increment () {
-      this.i += 1
+    flipCard () {
+      this.opponentFlip = !this.opponentFlip
     },
-    removeI () {
-      this.i -= 1
+    alertBox (title, msg) {
+      this.$buefy.dialog.alert({
+        title: title,
+        message: msg,
+        confirmText: 'Próxima rodada',
+        onConfirm: this.flipCard()
+      })
     },
-    snackbar () {
-      this.$buefy.snackbar.open(`Default, positioned bottom-right with a green 'OK' button`)
+    getCards () {
+      // Get cards from player statistics
+      let players = this.players.sort((a, b) => parseFloat(b.score_mean) - parseFloat(a.score_mean))
+        .slice(0, 49)
+      this.players = players
+    },
+    endGameMsg (msg) {
+      this.$buefy.dialog.confirm({
+        message: msg,
+        onConfirm: () => [this.getCards(), this.shuffleCards()]
+      })
+    },
+    setIndex () {
+      if (this.player_i >= this.playerCards.length - 1) {
+        this.player_i = 0
+        this.opponent_i += 1
+      } else if (this.opponent_i >= this.opponentCards.length - 1) {
+        this.opponent_i = 0
+        this.player_i += 1
+      } else {
+        this.player_i += 1
+        this.opponent_i += 1
+      }
+    },
+    checkVictory () {
+      if (this.playerCards.length === 0) {
+        this.endGameMsg('Derrota com D maiúsculo, quer mais uma partida?')
+      } else if (this.opponentCards.length === 0) {
+        this.endGameMsg('V de vitória! Quer mais uma partida?')
+      } else {}
+    },
+    shuffleCards () {
+      let currentIndex = this.players.length
+      let temporaryValue
+      let randomIndex
+      var cards = this.players
+
+      while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex)
+        currentIndex -= 1
+        temporaryValue = cards[currentIndex]
+        cards[currentIndex] = cards[randomIndex]
+        cards[randomIndex] = temporaryValue
+      }
+
+      // let playerCards = cards.slice(0, 24)
+      // let opponentCards = cards.slice(25, 49)
+
+      let playerCards = cards.slice(0, 4)
+      let opponentCards = cards.slice(5, 9)
+
+      this.playerCards = playerCards
+      this.opponentCards = opponentCards
     },
     updateComparison (value) {
-      if ((this.playerCards.length > this.i + 1) && (this.opponentCards.length > this.i + 1)) {
+      if ((this.playerCards.length > 0) && (this.opponentCards.length > 0)) {
         // Get player statistics
         this.playerData = value[1]
         switch (value[0]) {
-          case 'PREÇO:' : this.opponentData = this.opponentCards[this.i].price; break
-          case 'MÉDIA:' : this.opponentData = this.opponentCards[this.i].score_mean; break
-          case 'MÉDIA CASA:' : this.opponentData = this.opponentCards[this.i].score_mean_home; break
-          case 'MÉDIA FORA:' : this.opponentData = this.opponentCards[this.i].score_mean_away; break
-          case 'GOLS:' : this.opponentData = this.opponentCards[this.i].goals; break
-          case 'ASSISTÊNCIAS:' : this.opponentData = this.opponentCards[this.i].assists; break
-          case 'CHUTES:' : this.opponentData = this.opponentCards[this.i].shotsx; break
-          case 'ROUBADAS:' : this.opponentData = this.opponentCards[this.i].steals; break
+          case 'PREÇO:' : this.opponentData = this.opponentCards[this.opponent_i].price; break
+          case 'MÉDIA:' : this.opponentData = this.opponentCards[this.opponent_i].score_mean; break
+          case 'MÉDIA CASA:' : this.opponentData = this.opponentCards[this.opponent_i].score_mean_home; break
+          case 'MÉDIA FORA:' : this.opponentData = this.opponentCards[this.opponent_i].score_mean_away; break
+          case 'GOLS:' : this.opponentData = this.opponentCards[this.opponent_i].goals; break
+          case 'ASSISTÊNCIAS:' : this.opponentData = this.opponentCards[this.opponent_i].assists; break
+          case 'CHUTES:' : this.opponentData = this.opponentCards[this.opponent_i].shotsx; break
+          case 'ROUBADAS:' : this.opponentData = this.opponentCards[this.opponent_i].steals; break
           default: return console.log('error')
         }
 
-        this.snackbar()
-
         // Compare player statistics
         if (this.playerData >= this.opponentData) {
-          console.log('player wins')
-          this.playerCards.push(this.opponentCards[this.i])
-          this.i += 1
+          this.alertBox('Mitou!', 'Você venceu a batalha, mas não a guerra...')
+          this.flipCard()
+          this.playerCards.push(this.opponentCards[this.opponent_i])
+          this.opponentCards.splice(this.opponent_i, 1)
+          this.setIndex()
           this.playerScore += 5
+          this.checkVictory()
         } else {
-          console.log('AI wins')
-          this.opponentCards.push(this.playerCards[this.i])
-          this.i += 1
-          this.opponentScore += 5
+          this.alertBox('Perdeu!', 'Inteligência Artificial ganhou esta rodada')
+          this.opponentCards.push(this.playerCards[this.player_i])
+          this.playerCards.splice(this.player_i, 1)
+          this.setIndex()
           this.playerScore -= 10
+          this.checkVictory()
         }
-      } else {
-        console.log('game over')
-      }
+      } else {}
     },
     roundNumber (stat) {
       return stat.toFixed(1)
@@ -176,32 +227,10 @@ export default {
     this.playerEmail = url.searchParams.get('email')
 
     // Get cards from player statistics
-    let players = this.players.sort((a, b) => parseFloat(b.score_mean) - parseFloat(a.score_mean))
-      .slice(0, 49)
-    this.players = players
+    this.getCards()
+    this.shuffleCards()
   },
   mounted () {
-    let currentIndex = this.players.length
-    let temporaryValue
-    let randomIndex
-    var cards = this.players
-
-    while (currentIndex !== 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex)
-      currentIndex -= 1
-      temporaryValue = cards[currentIndex]
-      cards[currentIndex] = cards[randomIndex]
-      cards[randomIndex] = temporaryValue
-    }
-
-    // let playerCards = cards.slice(0, 24)
-    // let opponentCards = cards.slice(25, 49)
-
-    let playerCards = cards.slice(0, 4)
-    let opponentCards = cards.slice(5, 9)
-
-    this.playerCards = playerCards
-    this.opponentCards = opponentCards
   }
 }
 
