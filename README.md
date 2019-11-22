@@ -1,2 +1,2 @@
-# cartola-supertrunfo
-Jogo online de super trunfo (a.k.a. top trumps) do Cartola FC - ano 2019
+# PFC Cartola
+Jogo online inspirado no super trunfo (a.k.a. top trumps) com estatísticas reais dos jogadores do Brasileirão. 
