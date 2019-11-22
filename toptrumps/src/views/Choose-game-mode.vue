@@ -22,11 +22,11 @@
               </b-input>
             </b-field>
             <b-field label="Modo de Jogo"></b-field>
-            <b-button @click="selectGame(1)" type="is-primary" expanded> Contra a Inteligência Artificial</b-button>
+            <b-button @click="selectGame(1)" type="is-dark" expanded> Contra a Inteligência Artificial</b-button>
             <br>
-            <b-button @click="selectGame(2)" type="is-primary" disabled expanded> Contra um Pato Humano</b-button>
+            <b-button @click="selectGame(2)" type="is-dark" disabled expanded> Contra um Pato Humano</b-button>
             <br>
-            <b-button @click="goToGame" type="is-primary">Entrar</b-button>
+            <b-button @click="goToGame" type="is-dark" size="is-large">Jogar</b-button>
           </section>
           <br>
         </div>

@@ -1,6 +1,11 @@
 <template>
   <div class="columns">
     <div class="column is-half is-offset-one-quarter">
+      <div class="has-text-centered">
+        <h1 class="is-size-4">Ranking dos Campeões</h1>
+      </div>
+      <br>
+      <br>
       <div class="rankings">
         <b-table :data="data" :columns="columns"></b-table>
       </div>
@@ -14,11 +19,9 @@ export default {
   data () {
     return {
       data: [
-        { 'id': 1, 'first_name': 'Jesse', 'last_name': 'Simmons', 'date': '2016-10-15 13:43:27', 'gender': 'Male' },
-        { 'id': 2, 'first_name': 'John', 'last_name': 'Jacobs', 'date': '2016-12-15 06:00:53', 'gender': 'Male' },
-        { 'id': 3, 'first_name': 'Tina', 'last_name': 'Gilbert', 'date': '2016-04-26 06:26:28', 'gender': 'Female' },
-        { 'id': 4, 'first_name': 'Clarence', 'last_name': 'Flores', 'date': '2016-04-10 10:28:46', 'gender': 'Male' },
-        { 'id': 5, 'first_name': 'Anne', 'last_name': 'Lee', 'date': '2016-12-06 14:38:38', 'gender': 'Female' }
+        { 'id': 1, 'name': 'Big Boss', 'points': 1000 },
+        { 'id': 2, 'name': 'Everton Klopp', 'points': 954 },
+        { 'id': 3, 'name': 'Gomide', 'points': 200 }
       ],
       columns: [
         {
@@ -28,21 +31,13 @@ export default {
           numeric: true
         },
         {
-          field: 'first_name',
-          label: 'First Name'
+          field: 'name',
+          label: 'Apelido'
         },
         {
-          field: 'last_name',
-          label: 'Last Name'
-        },
-        {
-          field: 'date',
-          label: 'Date',
+          field: 'points',
+          label: 'Pontos',
           centered: true
-        },
-        {
-          field: 'gender',
-          label: 'Gender'
         }
       ]
     }
@@ -53,18 +48,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
 a {
   color: #42b983;
+}
+
+h1 {
+  text-transform: uppercase;
 }
 </style>

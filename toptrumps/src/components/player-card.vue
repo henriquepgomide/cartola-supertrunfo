@@ -18,8 +18,8 @@
                     </figure>
                   </div>
                   <div class="media-content">
-                    <p class="title is-7">{{ playerName }}</p>
-                    <p class="subtitle is-7">{{ upperCase(fixPositionName(playerPosition)) }}</p>
+                    <p class="title is-6">{{ upperCase(playerName) }}</p>
+                    <p class="subtitle is-7">{{ fixPositionName(playerPosition) }}</p>
                   </div>
                 </div>
                 <div class="content">
@@ -116,7 +116,7 @@ export default {
       return text.toUpperCase()
     },
     urlImagePath (imgId) {
-      return `https://www.cartolapfc.com.br/static/images/players-photos/2019/${imgId}.png`
+      return `https://www.cartolapfc.com.br/static/images/super-pfc/${imgId}.png`
     },
     addTeamLogo (teamName) {
       switch (teamName) {
@@ -155,15 +155,15 @@ export default {
 }
 
 tr {
-  font-size: 0.9vw;
+  font-size: 1.5vw;
 }
 
 /* The flip box container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-box {
   background-color: transparent;
-
   width: 100%;
-  height: 1200px;
+  height: auto;
+  /*height: 1100px;*/
   border: 1px solid #f1f1f1;
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
 }

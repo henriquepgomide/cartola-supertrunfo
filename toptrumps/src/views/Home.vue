@@ -3,13 +3,22 @@
     <div class="container">
       <div class="columns">
         <div class="column is-half is-offset-one-quarter">
-          <img id="pfclogo" alt="Logomarca do Cartola Fantasy Clube" src="../assets/logo-cartola-fantasy-club.svg">
-          <div class="has-text-centered">
-            <b-button type="is-primary">Jogar</b-button>
-          </div>
+          <img id="pfclogo" alt="Logomarca do Cartola Fantasy Clube" src="../assets/img/pfc-logo.png">
           <br>
+          <br>
+          <p class="has-text-centered">Super PFC é o jogo de cartas não oficial do Cartola FC. <br><br> Difícil para *******.</p>
         </div>
       </div>
+      <div class="has-text-centered">
+        <b-button tag="router-link"
+                  to="/game"
+                  type="is-blue"
+                  size="is-large">
+          Jogar
+        </b-button>
+      </div>
+      <br>
+      <br>
     </div>
     <Rankings />
     <PlayerCard />
@@ -31,5 +40,9 @@ export default {
 <style>
 #pfclogo {
   width: 200px;
+}
+
+button span {
+  font-family: 'Press Start 2P', cursive;
 }
 </style>

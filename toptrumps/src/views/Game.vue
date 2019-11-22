@@ -1,20 +1,36 @@
 // TODO: Provide a flip function to players see which card they've won
-//     : Use WarpGAN to create cartoons based on players
-//     : Use pixelate to pixelate player pictures
 //     : Save player score to Firebase and then update scoreboard view
-//     : Add button to restart match
 <template>
   <div class="game">
     <br>
 
+    <h1 class="is-size-6">Tempo de Jogo: {{ timer - 10 }}</h1>
+
+    <div class="column">
+        <div v-if="(opponentCards.length != 0 && playerCards.length == 0) ||
+          (opponentCards.length == 0 && playerCards.length != 0)">
+            <b-button @click="resetGame" type="is-dark">Reiniciar Partida</b-button>
+        </div>
+    </div>
+
+    <div class="columns notification is-warning">
+      <div class="column is-2"></div>
+      <div class="column">
+        <h2 class="is-size-4">{{ playerName }}</h2>
+        <h2>Pontos: {{ playerScore }}</h2>
+        <h2>Cartas: {{ playerCards.length }}</h2>
+      </div>
+      <div class="column">
+        <h2 class="is-size-4">PC</h2>
+        <h2>Pontos: {{ opponentScore }}</h2>
+        <h2>Cartas: {{ opponentCards.length }}</h2>
+      </div>
+      <div class="column is-2"></div>
+    </div>
+
     <div class="columns">
       <div class="column is-2"></div>
       <div class="column is-4">
-        <div class="notification is-warning">
-          <h2 class="is-size-4">{{ playerName }}</h2>
-          <h2>Pontos: {{ playerScore }}</h2>
-          <h2>Cartas Restantes: {{ playerCards.length }}</h2>
-        </div>
         <div v-if="playerCards.length > 0">
           <PlayerCard
             :playerName="playerCards[player_i].player_nickname"
@@ -39,11 +55,6 @@
       </div>
 
       <div class="column is-4">
-        <div class="notification is-warning">
-          <h2 class="is-size-4">PC</h2>
-          <h2>Pontos: {{ opponentScore }}</h2>
-          <h2>Cartas Restantes: {{ opponentCards.length }}</h2>
-        </div>
         <div v-if="opponentCards.length > 0 && !opponentFlip">
           <PlayerCard
             :playerName="opponentCards[opponent_i].player_nickname"
@@ -73,7 +84,7 @@
 
 <script>
 import PlayerCard from '@/components/player-card.vue'
-import players from '../assets/playerstats/data.json'
+import players from '../assets/playerstats/data-2019.json'
 
 export default {
   name: 'game',
@@ -94,7 +105,9 @@ export default {
       opponent_i: 0,
       playerCards: [],
       opponentCards: [],
-      opponentFlip: true
+      opponentFlip: true,
+      timer: 0,
+      finalScore: 0
     }
   },
   methods: {
@@ -105,8 +118,7 @@ export default {
       this.$buefy.dialog.alert({
         title: title,
         message: msg,
-        confirmText: 'Próxima rodada',
-        onConfirm: this.flipCard()
+        confirmText: 'Próxima rodada'
       })
     },
     getCards () {
@@ -118,7 +130,7 @@ export default {
     endGameMsg (msg) {
       this.$buefy.dialog.confirm({
         message: msg,
-        onConfirm: () => [this.getCards(), this.shuffleCards()]
+        onConfirm: () => console.log('acabou')
       })
     },
     setIndex () {
@@ -133,11 +145,19 @@ export default {
         this.opponent_i += 1
       }
     },
+    computeFinalScore () {
+      this.finalScore = (this.playerScore - ((this.timer - 10) * 0.1))
+    },
     checkVictory () {
       if (this.playerCards.length === 0) {
+        this.computeFinalScore()
         this.endGameMsg('Derrota com D maiúsculo, quer mais uma partida?')
       } else if (this.opponentCards.length === 0) {
-        this.endGameMsg('V de vitória! Quer mais uma partida?')
+        this.computeFinalScore()
+        this.endGameMsg(`V de vitória! Quer mais uma partida? <br><br>
+                         Pontuação: ${this.playerScore} <br>
+                         Punição de tempo: ${this.roundNumber(this.finalScore - this.playerScore)}<hr>
+                         Pontuação Total: ${this.finalScore}`)
       } else {}
     },
     shuffleCards () {
@@ -154,11 +174,11 @@ export default {
         cards[randomIndex] = temporaryValue
       }
 
-      // let playerCards = cards.slice(0, 24)
-      // let opponentCards = cards.slice(25, 49)
+      let playerCards = cards.slice(0, 24)
+      let opponentCards = cards.slice(25, 49)
 
-      let playerCards = cards.slice(0, 4)
-      let opponentCards = cards.slice(5, 9)
+      // let playerCards = cards.slice(0, 1)
+      // let opponentCards = cards.slice(2, 3)
 
       this.playerCards = playerCards
       this.opponentCards = opponentCards
@@ -181,22 +201,26 @@ export default {
 
         // Compare player statistics
         if (this.playerData >= this.opponentData) {
-          this.alertBox('Mitou!', 'Você venceu a batalha, mas não a guerra...')
-          this.flipCard()
+          this.alertBox('Mitou!',
+            `Você venceu a batalha, mas não a guerra... <br><br>
+            ${this.opponentCards[this.opponent_i].player_nickname} agora é seu!`)
           this.playerCards.push(this.opponentCards[this.opponent_i])
           this.opponentCards.splice(this.opponent_i, 1)
           this.setIndex()
-          this.playerScore += 5
+          this.playerScore += 20
           this.checkVictory()
         } else {
-          this.alertBox('Perdeu!', 'Inteligência Artificial ganhou esta rodada')
+          this.alertBox('Perdeu!', `Inteligência Artificial ganhou esta rodada.`)
           this.opponentCards.push(this.playerCards[this.player_i])
           this.playerCards.splice(this.player_i, 1)
           this.setIndex()
-          this.playerScore -= 10
+          this.playerScore -= 40
           this.checkVictory()
         }
       } else {}
+    },
+    resetGame () {
+      location.reload()
     },
     roundNumber (stat) {
       return stat.toFixed(1)
@@ -231,6 +255,9 @@ export default {
     this.shuffleCards()
   },
   mounted () {
+    this.timer = setInterval(() => {
+      this.timer += 1
+    }, 1000)
   }
 }
 

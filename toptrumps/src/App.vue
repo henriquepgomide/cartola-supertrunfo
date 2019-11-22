@@ -2,8 +2,8 @@
   <div id="app">
     <div id="nav">
       <span class="font-link"><router-link to="/">Home</router-link> | </span>
-      <span class="font-link"><router-link to="/game">Jogar</router-link> |</span>
-      <span class="font-link"><router-link to="/about"> About</router-link></span>
+      <span class="font-link"><router-link to="/game">Jogar</router-link> </span>
+      <!--<span class="font-link"><router-link to="/about"> About</router-link></span>-->
     </div>
     <router-view/>
   </div>
@@ -16,15 +16,7 @@ body {
   background-color: white;
 }
 
-h1 {
-  font-family: 'Bangers', cursive;
-}
-
-#nav .font-link {
-  font-family: 'Press Start 2P', cursive;
-}
-
-h1, h2 {
+h1, h2, nav, .font-link {
   font-family: 'Press Start 2P', cursive;
 }
 
