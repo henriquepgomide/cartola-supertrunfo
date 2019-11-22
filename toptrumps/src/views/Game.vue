@@ -130,7 +130,10 @@ export default {
     endGameMsg (msg) {
       this.$buefy.dialog.confirm({
         message: msg,
-        onConfirm: () => console.log('acabou')
+        onConfirm: () => this.$buefy.toast.open({
+          message: 'Something happened correctly!',
+          type: 'is-success'
+        })
       })
     },
     setIndex () {
@@ -196,7 +199,7 @@ export default {
           case 'ASSISTÊNCIAS:' : this.opponentData = this.opponentCards[this.opponent_i].assists; break
           case 'CHUTES:' : this.opponentData = this.opponentCards[this.opponent_i].shotsx; break
           case 'ROUBADAS:' : this.opponentData = this.opponentCards[this.opponent_i].steals; break
-          default: return console.log('error')
+          default: return 0
         }
 
         // Compare player statistics
