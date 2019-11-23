@@ -1,5 +1,3 @@
-// TODO: Provide a flip function to players see which card they've won
-//     : Save player score to Firebase and then update scoreboard view
 <template>
   <div class="game">
     <br>
@@ -7,10 +5,10 @@
     <h1 class="is-size-6">Tempo de Jogo: {{ timer - 10 }}</h1>
 
     <div class="column">
-        <div v-if="(opponentCards.length != 0 && playerCards.length == 0) ||
-          (opponentCards.length == 0 && playerCards.length != 0)">
-            <b-button @click="resetGame" type="is-dark">Reiniciar Partida</b-button>
-        </div>
+      <div v-if="(opponentCards.length != 0 && playerCards.length == 0) ||
+                 (opponentCards.length == 0 && playerCards.length != 0)">
+        <b-button @click="resetGame" type="is-dark">Reiniciar Partida</b-button>
+      </div>
     </div>
 
     <div class="columns notification is-warning">
