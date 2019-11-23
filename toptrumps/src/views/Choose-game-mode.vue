@@ -3,10 +3,10 @@
     <div class="columns">
       <div class="column"></div>
       <div class="column">
-        <div class="notification">
-          <h1 class="is-size-3">Registro</h1>
+        <div class="notification" id="signin">
+          <h1 class="is-size-3 has-text-black-ter">Registro</h1>
           <br>
-          <p>Registre seus dados para o painel dos campeões!</p>
+          <p class="has-text-black-ter">Registre seus dados para o painel dos campeões!</p>
           <br>
           <section>
             <b-field label="Nome">
@@ -22,9 +22,9 @@
               </b-input>
             </b-field>
             <b-field label="Modo de Jogo"></b-field>
-            <b-button @click="selectGame(1)" type="is-dark" expanded> Contra a Inteligência Artificial</b-button>
+            <b-button @click="selectGame(1)" type="is-dark" expanded> VS. Máquina</b-button>
             <br>
-            <b-button @click="selectGame(2)" type="is-dark" disabled expanded> Contra um Pato Humano</b-button>
+            <b-button @click="selectGame(2)" type="is-dark" disabled expanded>VS. Jogador</b-button>
             <br>
             <b-button @click="goToGame" type="is-dark" size="is-large">Jogar</b-button>
           </section>
@@ -61,3 +61,6 @@ export default {
   }
 }
 </script>
+
+<style>
+</style>

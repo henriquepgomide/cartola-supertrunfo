@@ -1,5 +1,5 @@
 <template>
-  <div class="game">
+  <div class="game-screen">
     <br>
 
     <h1 class="is-size-6">Tempo de Jogo: {{ timer - 10 }}</h1>
@@ -11,19 +11,12 @@
       </div>
     </div>
 
-    <div class="columns notification is-warning">
-      <div class="column is-2"></div>
+    <div id="score-board" class="columns notification is-dark">
       <div class="column">
-        <h2 class="is-size-4">{{ playerName }}</h2>
-        <h2>Pontos: {{ playerScore }}</h2>
-        <h2>Cartas: {{ playerCards.length }}</h2>
+        <h2 class="is-size-5 has-text-warning">{{ playerName }}</h2>
+        <p class="has-text-warning">Pontos: {{ playerScore }} </p>
+        <p class="has-text-warning">Cartas: {{ playerCards.length }}</p>
       </div>
-      <div class="column">
-        <h2 class="is-size-4">PC</h2>
-        <h2>Pontos: {{ opponentScore }}</h2>
-        <h2>Cartas: {{ opponentCards.length }}</h2>
-      </div>
-      <div class="column is-2"></div>
     </div>
 
     <div class="columns">
@@ -80,12 +73,15 @@
   </div>
 </template>
 
+<style>
+</style>
+
 <script>
 import PlayerCard from '@/components/player-card.vue'
 import players from '../assets/playerstats/data-2019.json'
 
 export default {
-  name: 'game',
+  name: 'game-screen',
   components: {
     PlayerCard
   },

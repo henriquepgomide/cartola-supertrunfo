@@ -3,8 +3,6 @@
 # abort on errors
 set -e
 
-cd toptrumps
-
 # build
 npm run build
 
