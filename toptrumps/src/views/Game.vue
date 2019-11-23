@@ -1,5 +1,5 @@
 <template>
-  <div class="game-screen">
+  <div class="gamescreen">
     <br>
 
     <h1 class="is-size-6">Tempo de Jogo: {{ timer - 10 }}</h1>
@@ -81,7 +81,7 @@ import PlayerCard from '@/components/player-card.vue'
 import players from '../assets/playerstats/data-2019.json'
 
 export default {
-  name: 'game-screen',
+  name: 'gamescreen',
   components: {
     PlayerCard
   },

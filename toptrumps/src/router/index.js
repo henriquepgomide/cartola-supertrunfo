@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import ChooseGameMode from '../views/Choose-game-mode.vue'
+import GameScreen from '../views/Game.vue'
 
 Vue.use(VueRouter)
 
@@ -11,14 +13,14 @@ const routes = [
     component: Home
   },
   {
-    path: '/game',
-    name: 'game',
-    component: () => import(/* webpackChunkName: "game" */ '../views/Choose-game-mode.vue')
+    path: '/choose-game-mode',
+    name: 'choosegame',
+    component: ChooseGameMode
   },
   {
     path: '/game-screen',
-    name: 'game-screen',
-    component: () => import(/* webpackChunkName: "game-screen" */ '../views/Game.vue')
+    name: 'gamescreen',
+    component: GameScreen
   }
 ]
 

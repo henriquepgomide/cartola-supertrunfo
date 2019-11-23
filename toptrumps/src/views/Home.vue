@@ -11,7 +11,7 @@
       </div>
       <div class="has-text-centered">
         <b-button tag="router-link"
-                  to="/game"
+                  to="/choose-game-mode"
                   type="is-light"
                   size="is-large">
           Jogar
