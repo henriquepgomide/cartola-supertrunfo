@@ -6,7 +6,8 @@
           <img id="pfclogo" alt="Logomarca do Cartola Fantasy Clube" src="../assets/img/pfc-logo.png">
           <br>
           <br>
-          <p class="has-text-centered">Super PFC é o jogo de cartas não oficial do Cartola FC. <br><br> Difícil para C******.</p>
+          <h1 class="has-text-centered is-size-3">SUPER PFC</h1>
+          <p class="has-text-centered"> O Card Game não oficial do Cartola FC. <br><br> (Difícil para C******.)</p>
         </div>
       </div>
       <div class="has-text-centered">

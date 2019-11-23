@@ -11,7 +11,7 @@
 
     <div id="score-board" class="columns notification is-dark">
       <div class="column">
-        <h2 class="is-size-5 has-text-warning">{{ playerName }}</h2>
+        <h2 class="is-size-5 has-text-warning">{{ playerName.toUpperCase() }}</h2>
         <p class="has-text-warning">Pontos: {{ playerScore }} </p>
         <p class="has-text-warning">Cartas: {{ playerCards.length }}</p>
       </div>
