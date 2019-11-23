@@ -1,9 +1,7 @@
 <template>
   <div class="gamescreen">
     <br>
-
     <h1 class="is-size-6">Tempo de Jogo: {{ timer - 10 }}</h1>
-
     <div class="column">
       <div v-if="(opponentCards.length != 0 && playerCards.length == 0) ||
                  (opponentCards.length == 0 && playerCards.length != 0)">
@@ -82,6 +80,7 @@ import players from '../assets/playerstats/data-2019.json'
 
 export default {
   name: 'gamescreen',
+  props: ['playerName', 'playerEmail'],
   components: {
     PlayerCard
   },
@@ -92,8 +91,6 @@ export default {
       players,
       playerScore: 0,
       opponentScore: 0,
-      playerName: null,
-      playerEmail: null,
       round: 0,
       player_i: 0,
       opponent_i: 0,
@@ -174,9 +171,6 @@ export default {
       let playerCards = cards.slice(0, 24)
       let opponentCards = cards.slice(25, 49)
 
-      // let playerCards = cards.slice(0, 1)
-      // let opponentCards = cards.slice(2, 3)
-
       this.playerCards = playerCards
       this.opponentCards = opponentCards
     },
@@ -242,11 +236,6 @@ export default {
     }
   },
   created () {
-    // Get player name and email
-    let url = new URL(window.location.href)
-    this.playerName = url.searchParams.get('username')
-    this.playerEmail = url.searchParams.get('email')
-
     // Get cards from player statistics
     this.getCards()
     this.shuffleCards()

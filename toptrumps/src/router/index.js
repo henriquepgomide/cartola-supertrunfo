@@ -20,7 +20,8 @@ const routes = [
   {
     path: '/game-screen',
     name: 'gamescreen',
-    component: GameScreen
+    component: GameScreen,
+    props: true
   }
 ]
 

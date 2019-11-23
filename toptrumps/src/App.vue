@@ -2,8 +2,7 @@
   <div id="app">
     <div id="nav">
       <span class="font-link"><router-link to="/">Home</router-link> | </span>
-      <span class="font-link"><router-link to="/choose-game-mode">Jogar</router-link> | </span>
-      <span class="font-link"><router-link to="/game-screen">Tela do Jogo</router-link> </span>
+      <span class="font-link"><router-link to="/choose-game-mode">Jogar</router-link></span>
     </div>
     <router-view/>
   </div>

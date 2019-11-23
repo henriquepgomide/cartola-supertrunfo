@@ -8,6 +8,9 @@
           <br>
           <p class="has-text-black-ter">Registre seus dados para o painel dos campeões!</p>
           <br>
+          <b-message title="Erro" type="is-danger" has-icon :active.sync="validationAlert">
+            Você precisa incluir um nome de usuário
+        </b-message>
           <section>
             <b-field label="Nome">
               <b-input v-model="playerName"></b-input>
@@ -41,6 +44,7 @@ export default {
   name: 'choose-game-mode',
   data () {
     return {
+      validationAlert: false,
       gameMode: 1,
       playerName: null,
       playerEmail: null
@@ -54,13 +58,18 @@ export default {
       return null
     },
     goToGame () {
-      let username = this.playerName
-      let email = this.playerEmail
-      window.location.replace(`/game-screen?username=${username}&email=${email}`)
+      if (this.playerName === null) {
+        this.validationAlert = true
+      } else {
+        this.$router.push(
+          { name: 'gamescreen',
+            params: {
+              playerName: this.playerName,
+              playerEmail: this.playerEmail
+            }
+          })
+      }
     }
   }
 }
 </script>
-
-<style>
-</style>
