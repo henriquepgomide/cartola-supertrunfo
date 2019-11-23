@@ -122,7 +122,7 @@ export default {
       this.$buefy.dialog.confirm({
         message: msg,
         onConfirm: () => this.$buefy.toast.open({
-          message: 'Something happened correctly!',
+          message: 'A partida acabou!',
           type: 'is-success'
         })
       })
