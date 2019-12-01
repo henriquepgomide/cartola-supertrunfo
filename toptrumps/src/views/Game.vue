@@ -115,16 +115,19 @@ export default {
     getCards () {
       // Get cards from player statistics
       let players = this.players.sort((a, b) => parseFloat(b.score_mean) - parseFloat(a.score_mean))
-        .slice(0, 49)
+        .slice(0, 149)
       this.players = players
     },
     endGameMsg (msg) {
       this.$buefy.dialog.confirm({
         message: msg,
-        onConfirm: () => this.$buefy.toast.open({
-          message: 'A partida acabou!',
-          type: 'is-success'
-        })
+        confirmText: 'Nova Partida',
+        cancelText: 'Retornar para Menu',
+        onCancel: () => this.$router.push('/'),
+        onConfirm: () => {
+          this.storeStats()
+          this.$router.push('/choose-game-mode')
+        }
       })
     },
     setIndex () {
@@ -148,7 +151,7 @@ export default {
         this.endGameMsg('Derrota com D maiúsculo, quer mais uma partida?')
       } else if (this.opponentCards.length === 0) {
         this.computeFinalScore()
-        this.endGameMsg(`V de vitória! Quer mais uma partida? <br><br>
+        this.endGameMsg(`<h1>V de vitória! Quer mais uma partida?</h1> <br><br>
                          Pontuação: ${this.playerScore} <br>
                          Punição de tempo: ${this.roundNumber(this.finalScore - this.playerScore)}<hr>
                          Pontuação Total: ${this.finalScore}`)
@@ -211,7 +214,13 @@ export default {
       } else {}
     },
     resetGame () {
-      location.reload()
+      this.$router.push(
+        { name: 'gamescreen',
+          params: {
+            playerName: this.playerName,
+            playerEmail: this.playerEmail
+          }
+        })
     },
     roundNumber (stat) {
       return stat.toFixed(1)
@@ -233,6 +242,27 @@ export default {
         default:
           return 'Outra posição'
       }
+    },
+    storeStats () {
+      if (this.finalScore <= 0) {
+        this.finalScore = 0
+      }
+      this.$http.post('https://pfc-cardgame.firebaseio.com/pfc-cardgame.json',
+        { 'player': this.playerName,
+          'email': this.playerEmail,
+          'score': this.finalScore * -1,
+          'date': new Date().toJSON().slice(0, 10).replace(/-/g, '/')
+        })
+        .then(response => {
+          const formId = response.body.name
+          this.$emit('sendId', formId)
+        }, error => {
+          this.$buefy.toast.open({
+            message: error,
+            type: 'is-success'
+          })
+          this.$router.push({ path: '/' })
+        })
     }
   },
   created () {

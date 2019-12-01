@@ -7,7 +7,7 @@
           <br>
           <br>
           <h1 class="has-text-centered is-size-3">SUPER PFC</h1>
-          <p class="has-text-centered"> O Card Game não oficial do Cartola FC. <br><br> (Difícil para C******.)</p>
+          <p class="has-text-centered"> O Card Game não oficial do Cartola FC.</p>
         </div>
       </div>
       <div class="has-text-centered">

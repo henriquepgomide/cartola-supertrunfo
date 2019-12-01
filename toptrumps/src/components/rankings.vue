@@ -7,7 +7,12 @@
       <br>
       <br>
       <div class="rankings">
-        <b-table :data="data" :columns="columns"></b-table>
+        <div v-if="loaded">
+        <b-table
+          :data="ranking"
+          :default-sort="['score', 'desc']"
+          :columns="columns"></b-table>
+        </div>
       </div>
     </div>
   </div>
@@ -18,31 +23,42 @@ export default {
   name: 'rankings',
   data () {
     return {
-      data: [
-        { 'id': 1, 'name': 'Big Boss', 'points': 1000 },
-        { 'id': 2, 'name': 'Everton Klopp', 'points': 954 },
-        { 'id': 3, 'name': 'Gomide', 'points': 200 }
-      ],
+      loaded: false,
+      ranking: [],
       columns: [
         {
-          field: 'id',
-          label: 'ID',
-          width: '40',
-          numeric: true
-        },
-        {
-          field: 'name',
+          field: 'player',
           label: 'Apelido'
         },
         {
-          field: 'points',
+          field: 'score',
           label: 'Pontos',
-          centered: true
+          centered: true,
+          numeric: true,
+          sortable: true
         }
       ]
     }
+  },
+  methods: {
+    fetchData () {
+      const database = 'https://pfc-cardgame.firebaseio.com/pfc-cardgame.json?orderBy="score"&limitToFirst=50'
+      this.$http.get(database)
+        .then(response => {
+          return response.json()
+        })
+        .then(data => {
+          let ranking = Object.values(data).map(function (ele) {
+            return { 'player': ele.player, 'score': Math.abs(ele.score) }
+          })
+          this.ranking = ranking
+          this.loaded = true
+        })
+    }
+  },
+  async mounted () {
+    this.fetchData()
   }
-
 }
 </script>
 
