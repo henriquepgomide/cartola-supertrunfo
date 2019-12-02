@@ -171,8 +171,8 @@ export default {
         cards[randomIndex] = temporaryValue
       }
 
-      let playerCards = cards.slice(0, 24)
-      let opponentCards = cards.slice(25, 49)
+      let playerCards = cards.slice(0, 19)
+      let opponentCards = cards.slice(20, 39)
 
       this.playerCards = playerCards
       this.opponentCards = opponentCards
